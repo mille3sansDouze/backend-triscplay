@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { GameController } from './game/game.controller';
 import { GameModule } from './game/game.module';
 
 @Module({
@@ -15,7 +14,7 @@ import { GameModule } from './game/game.module';
     }),
     GameModule,
   ],
-  controllers: [AppController, GameController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
