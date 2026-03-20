@@ -5,7 +5,7 @@ import {
 } from 'typeorm';
 
 @Entity('User')
-export class User {
+export class UserTypeOrm {
   @PrimaryGeneratedColumn('uuid')
   id_user: string;
 
