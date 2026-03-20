@@ -1,8 +1,7 @@
-import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsString, MaxLength, IsEmail, IsOptional } from 'class-validator';
 export class CreateUserDto {
   @IsString()
-  @IsNotEmpty({ message: 'Un mail valide est obligatoire' })
-  @MaxLength(100)
+  @IsEmail({}, { message: 'Un mail valide est obligatoire' })
   email: string;
 
   @IsString()
@@ -20,10 +19,12 @@ export class CreateUserDto {
   @MaxLength(100)
   password: string;
 
+  @IsOptional()
   @IsString()
   @MaxLength(500)
   profile_pic_url: string;
-  
+
+  @IsOptional()
   @IsString()
   @MaxLength(500)
   description: string;

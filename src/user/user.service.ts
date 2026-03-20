@@ -17,7 +17,7 @@ export interface User {
 export class UserService {
     constructor(
         @InjectRepository(UserTypeOrm)
-        private readonly userRepo: Repository<User>,
+        private readonly userRepo: Repository<UserTypeOrm>,
     ) {}
 
     async findAll(): Promise<User[]> {
@@ -28,12 +28,12 @@ export class UserService {
     async findOne(id_user: string): Promise<User> {
         const user = await this.userRepo.findOneBy({ id_user })
 
-        if (!user) throw new NotFoundException('Utilisateur ${id_user} introuvable');
+        if (!user) throw new NotFoundException(`Utilisateur ${id_user} introuvable`);
 
         return user;
     }
 
-    async create(email: string, displayed_name: string, user_name: string, password: string): Promise<User> {
+    async create(email: string, displayed_name: string, user_name: string, password: string, profile_pic_url: string, description: string): Promise<User> {
         const newUser = await this.userRepo.save({ email, displayed_name, user_name, password });
 
         return newUser;
@@ -42,7 +42,7 @@ export class UserService {
     async updateDescription(id_user: string, description: string): Promise <User> {
         const user = await this.findOne(id_user);
 
-        user.description = "Fonction à ajouter";
+        user.description = description;
 
         await this.userRepo.save(user);
 
