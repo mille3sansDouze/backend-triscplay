@@ -11,12 +11,17 @@ export class UserController {
         return this.userService.findAll();
     }
 
+    @Get(':id')
+    findOne(@Param('id') id_user: string){
+        return this.userService.findOne(id_user);
+    }
+
     @Post()
     create(@Body() body: CreateUserDto) {
         return this.userService.create(body.email, body.displayed_name, body.user_name, body.password, body.profile_pic_url, body.description);
     }
 
-    @Patch(':id/description')
+    @Patch(':id')
     update(@Param('id') id_user: string, @Body() body: { description: string }) {
         return this.userService.updateDescription(id_user, body.description);
     }
