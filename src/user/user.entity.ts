@@ -1,10 +1,10 @@
-import { Game } from 'src/game/game.entity';
+
+import { Play } from 'src/play/play.entity';
 import { 
     Entity, 
     PrimaryGeneratedColumn, 
     Column,
-    ManyToMany,
-    JoinTable,
+    OneToMany,
 } from 'typeorm';
 
 @Entity('User')
@@ -30,6 +30,5 @@ export class UserTypeOrm {
   @Column({ nullable: true })
   description: string;
 
-  @ManyToMany(() => Game, (game) => game.users)
-  @JoinTable() games: Game[];
+  @OneToMany(() => Play, (play) => play.user) plays: Play[];
 }
