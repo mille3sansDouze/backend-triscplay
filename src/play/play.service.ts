@@ -2,14 +2,13 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Play } from './play.entity';
-import { Interface } from 'readline';
 import { User } from 'src/user/user.service';
-import { Game } from 'src/game/game.entity';
+import { GameInterface } from 'src/game/game.service';
 
 export interface PlayInterface{
     id: number;
     user: User;
-    game: Game; //créer interface dans Game
+    game: GameInterface; //créer interface dans Game
     score: number;
     created_at: Date;
 }
