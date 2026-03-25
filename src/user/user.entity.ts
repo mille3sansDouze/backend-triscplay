@@ -1,7 +1,10 @@
+import { Game } from 'src/game/game.entity';
 import { 
     Entity, 
     PrimaryGeneratedColumn, 
     Column,
+    ManyToMany,
+    JoinTable,
 } from 'typeorm';
 
 @Entity('User')
@@ -26,4 +29,7 @@ export class UserTypeOrm {
 
   @Column({ nullable: true })
   description: string;
+
+  @ManyToMany(() => Game, (game) => game.users)
+  @JoinTable() games: Game[];
 }

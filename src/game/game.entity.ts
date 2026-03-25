@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { UserTypeOrm } from 'src/user/user.entity';
+import { 
+  Entity,
+  PrimaryGeneratedColumn, 
+  Column, 
+  ManyToMany 
+} from 'typeorm';
 
 @Entity()
 export class Game {
@@ -19,4 +25,6 @@ export class Game {
 
   @Column()
   isMultiplayer: boolean;
+
+  @ManyToMany(() => UserTypeOrm, (user) => user.games) users: UserTypeOrm[];
 }
