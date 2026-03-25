@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { UserTypeOrm } from 'src/user/user.entity';
 import { Game } from 'src/game/game.entity';
 
@@ -17,5 +17,5 @@ export class Play {
   score: number;
 
   @CreateDateColumn()
-  created_at: Date; // timestamp automatique
+  created_at: Date;
 }
