@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { GameController } from './game/game.controller';
 import { GameModule } from './game/game.module';
 import { UserModule } from './user/user.module';
 import { PlayModule } from './play/play.module';
@@ -14,7 +13,7 @@ import { ConnexionModule } from './connexionStatus/connexionStatus.module';
       type: 'sqlite',
       database: 'db.sqlite',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
+      synchronize: false,
     }),
     GameModule,
     UserModule,
