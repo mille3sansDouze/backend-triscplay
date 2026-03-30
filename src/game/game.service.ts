@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { Game } from './game.entity';
 
 export interface GameInterface {
-  id: number;
+  id_game: number;
   name: string;
   description: string;
   pegi: number;
@@ -23,8 +23,8 @@ export class GameService {
     return this.gameRepository.find();
   }
 
-  findOne(id: number): Promise<GameInterface | null> {
-    return this.gameRepository.findOneBy({ id });
+  findOne(id_game: number): Promise<GameInterface | null> {
+    return this.gameRepository.findOneBy({ id_game });
   }
 
   create(game: Partial<Game>): Promise<GameInterface> {
@@ -32,9 +32,9 @@ export class GameService {
     return this.gameRepository.save(newGame);
   }
 
-  async update(id: number, game: Partial<GameInterface>): Promise<GameInterface | null> {
-    await this.gameRepository.update(id, game);
-    return this.findOne(id);
+  async update(id_game: number, game: Partial<GameInterface>): Promise<GameInterface | null> {
+    await this.gameRepository.update(id_game, game);
+    return this.findOne(id_game);
   }
 
   async remove(id: number): Promise<void> {

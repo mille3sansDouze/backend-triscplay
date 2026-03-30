@@ -9,7 +9,7 @@ import {
 @Entity()
 export class Game {
   @PrimaryGeneratedColumn()
-  id: number;
+  id_game: number;
 
   @Column()
   name: string;

@@ -18,7 +18,7 @@ export class UserController {
 
     @Post()
     create(@Body() body: CreateUserDto) {
-        return this.userService.create(body);
+        return this.userService.create(body.email, body.displayed_name, body.user_name, body.password, body.profile_pic_url, body.description);
     }
 
     @Patch(':id')
