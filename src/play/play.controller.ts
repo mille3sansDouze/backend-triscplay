@@ -18,7 +18,7 @@ export class PlayController {
     
     @Post()
     create(@Body() body: CreatePlayDto) {
-        return this.playService.create(body.score);
+        return this.playService.create(body.id_user, body.id_game, body.score);
     }
     
     @Patch(':id')

@@ -6,7 +6,7 @@ import {
   OneToMany, 
 } from 'typeorm';
 
-@Entity()
+@Entity('Game')
 export class Game {
   @PrimaryGeneratedColumn()
   id_game: number;
