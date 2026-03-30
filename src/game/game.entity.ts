@@ -5,7 +5,6 @@ import {
   Column,
   OneToMany, 
 } from 'typeorm';
-
 @Entity()
 export class Game {
   @PrimaryGeneratedColumn()
@@ -27,4 +26,5 @@ export class Game {
   isMultiplayer: boolean;
 
   @OneToMany(() => Play, (play) => play.game) plays: Play[];
+
 }
