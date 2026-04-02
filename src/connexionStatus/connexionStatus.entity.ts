@@ -2,8 +2,8 @@ import {
     Entity, 
     PrimaryGeneratedColumn,
     Column,
-    ManyToMany,
-    JoinTable,
+    OneToMany,
+    
  } from "typeorm";
  import { UserTypeOrm } from "src/user/user.entity";
 
@@ -16,11 +16,6 @@ export class ConnexionStatus{
     @Column()
     libelle: String
 
-    @ManyToMany(() => UserTypeOrm, (user) => user.connexions)
-    @JoinTable({
-        name: 'StatutConnexion',
-        joinColumn: { name: 'id_connexion'},
-        inverseJoinColumn: { name: 'id_user' },
-    })
-    users: UserTypeOrm[]
+    @OneToMany(() => UserTypeOrm, (user) => user.connexion)
+    users: UserTypeOrm[];
 }

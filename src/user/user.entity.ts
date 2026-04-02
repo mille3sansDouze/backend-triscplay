@@ -1,15 +1,14 @@
-<<<<<<< HEAD
 
 import { ConnexionStatus } from 'src/connexionStatus/connexionStatus.entity';
-=======
->>>>>>> f751aef01079f3a3694096e632a15e8cc4c6702e
 import { Play } from 'src/play/play.entity';
+import { UserStatus } from 'src/user-status/user-status.entity';
 import { 
     Entity, 
     PrimaryGeneratedColumn, 
     Column,
     OneToMany,
-    ManyToMany,
+    ManyToOne,
+    JoinColumn,
 } from 'typeorm';
 
 @Entity('User')
@@ -36,11 +35,10 @@ export class UserTypeOrm {
   description: string;
 
   @OneToMany(() => Play, (play) => play.user) plays: Play[];
-<<<<<<< HEAD
-  @ManyToMany(() => ConnexionStatus, (connexionStatus) => connexionStatus.users)
-  connexions: ConnexionStatus[];
+  @ManyToOne(() => ConnexionStatus, (connexionStatus) => connexionStatus.users, { nullable: false })
+  @JoinColumn({ name: 'id_connexion' })
+  connexion: ConnexionStatus;
+  @ManyToOne(() => UserStatus, (userStatus) => userStatus.users, { nullable: false })
+  @JoinColumn({ name: 'id_status' })
+  status: UserStatus;
 }
-=======
-}
-
->>>>>>> f751aef01079f3a3694096e632a15e8cc4c6702e

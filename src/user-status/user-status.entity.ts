@@ -1,6 +1,8 @@
+import { UserTypeOrm } from "src/user/user.entity";
 import { 
     Column,
     Entity, 
+    OneToMany, 
     PrimaryGeneratedColumn 
 } from "typeorm";
 
@@ -11,4 +13,7 @@ export class UserStatus{
     
     @Column()
     libelle: String;
+
+    @OneToMany(() => UserTypeOrm, (user) => user.status)
+    users: UserTypeOrm[];
 }
