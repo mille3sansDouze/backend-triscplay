@@ -1,4 +1,3 @@
-
 import { Play } from 'src/play/play.entity';
 import { 
     Entity, 
@@ -32,3 +31,4 @@ export class UserTypeOrm {
 
   @OneToMany(() => Play, (play) => play.user) plays: Play[];
 }
+
