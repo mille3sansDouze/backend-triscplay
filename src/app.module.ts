@@ -7,6 +7,9 @@ import { UserModule } from './user/user.module';
 import { PlayModule } from './play/play.module';
 import { ConnexionModule } from './connexionStatus/connexionStatus.module';
 import { UserStatusModule } from './user-status/user-status.module';
+import { MessageController } from './message/message.controller';
+import { MessageService } from './message/message.service';
+import { MessageModule } from './message/message.module';
 
 @Module({
   imports: [
@@ -21,8 +24,9 @@ import { UserStatusModule } from './user-status/user-status.module';
     PlayModule,
     ConnexionModule,
     UserStatusModule,
+    MessageModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, MessageController],
+  providers: [AppService, MessageService],
 })
 export class AppModule {}

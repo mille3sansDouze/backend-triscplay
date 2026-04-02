@@ -23,5 +23,4 @@ export class UserStatusController {
     @Patch(':id')
     update(@Param('id') id_status: number, @Body() body: { libelle: string }) {
         return this.statusService.updateStatus(id_status, body.libelle);
-    }
-}
+    }}
