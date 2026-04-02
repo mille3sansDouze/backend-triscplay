@@ -18,7 +18,7 @@ export interface User {
 export class UserService {
     constructor(
         @InjectRepository(UserTypeOrm)
-        private readonly userRepo: Repository<UserTypeOrm>,
+        private readonly userRepo: Repository<UserTypeOrm>
     ) {}
 
     async findAll(): Promise<User[]> {

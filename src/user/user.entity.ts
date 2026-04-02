@@ -1,10 +1,12 @@
 
+import { ConnexionStatus } from 'src/connexionStatus/connexionStatus.entity';
 import { Play } from 'src/play/play.entity';
 import { 
     Entity, 
     PrimaryGeneratedColumn, 
     Column,
     OneToMany,
+    ManyToMany,
 } from 'typeorm';
 
 @Entity('User')
@@ -31,4 +33,6 @@ export class UserTypeOrm {
   description: string;
 
   @OneToMany(() => Play, (play) => play.user) plays: Play[];
+  @ManyToMany(() => ConnexionStatus, (connexionStatus) => connexionStatus.users)
+  connexions: ConnexionStatus[];
 }

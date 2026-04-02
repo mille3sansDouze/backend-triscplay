@@ -33,8 +33,8 @@ constructor(
         return play;
     }
 
-    async create(score: number): Promise<PlayInterface> {
-        const newPlay = await this.playRepo.save({score});
+    async create(id_user: String, id_game: number, score: number): Promise<PlayInterface> {
+        const newPlay = await this.playRepo.save({id_user, id_game, score});
 
         return newPlay;
     }
