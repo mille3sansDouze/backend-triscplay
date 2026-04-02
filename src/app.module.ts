@@ -6,6 +6,7 @@ import { GameModule } from './game/game.module';
 import { UserModule } from './user/user.module';
 import { PlayModule } from './play/play.module';
 import { ConnexionModule } from './connexionStatus/connexionStatus.module';
+import { UserStatusModule } from './user-status/user-status.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ConnexionModule } from './connexionStatus/connexionStatus.module';
     UserModule,
     PlayModule,
     ConnexionModule,
+    UserStatusModule,
   ],
   controllers: [AppController],
   providers: [AppService],
