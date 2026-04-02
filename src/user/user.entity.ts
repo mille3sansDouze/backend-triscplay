@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 
 import { ConnexionStatus } from 'src/connexionStatus/connexionStatus.entity';
+=======
+>>>>>>> f751aef01079f3a3694096e632a15e8cc4c6702e
 import { Play } from 'src/play/play.entity';
 import { 
     Entity, 
@@ -33,6 +36,11 @@ export class UserTypeOrm {
   description: string;
 
   @OneToMany(() => Play, (play) => play.user) plays: Play[];
+<<<<<<< HEAD
   @ManyToMany(() => ConnexionStatus, (connexionStatus) => connexionStatus.users)
   connexions: ConnexionStatus[];
 }
+=======
+}
+
+>>>>>>> f751aef01079f3a3694096e632a15e8cc4c6702e

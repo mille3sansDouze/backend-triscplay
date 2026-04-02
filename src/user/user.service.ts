@@ -54,4 +54,15 @@ export class UserService {
     async remove(id_user: string): Promise<void> {
         await this.userRepo.delete({ id_user })
     }
+
+    async validateUser(email: string, password: string) {
+        const user = await this.userRepo.findOne({ where: { email } });
+        if (!user) return null;
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) return null;
+
+        const { password: _, ...result } = user;
+        return result;
+    }
 }

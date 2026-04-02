@@ -13,6 +13,7 @@ export class GameController {
 
   @Get(':id')
   findOne(@Param('id') id: string): Promise<GameInterface | null> {
+
     return this.gameService.findOne(+id);
   }
 
@@ -23,6 +24,7 @@ export class GameController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() game: Partial<GameInterface>): Promise<GameInterface | null> {
+
     return this.gameService.update(+id, game);
   }
 
@@ -30,4 +32,5 @@ export class GameController {
   remove(@Param('id') id: string): Promise<void> {
     return this.gameService.remove(+id);
   }
+
 }
