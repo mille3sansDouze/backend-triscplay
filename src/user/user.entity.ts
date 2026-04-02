@@ -35,10 +35,10 @@ export class UserTypeOrm {
   description: string;
 
   @OneToMany(() => Play, (play) => play.user) plays: Play[];
-  @ManyToOne(() => ConnexionStatus, (connexionStatus) => connexionStatus.users, { nullable: false })
+  @ManyToOne(() => ConnexionStatus, (connexionStatus) => connexionStatus.users)
   @JoinColumn({ name: 'id_connexion' })
   connexion: ConnexionStatus;
-  @ManyToOne(() => UserStatus, (userStatus) => userStatus.users, { nullable: false })
+  @ManyToOne(() => UserStatus, (userStatus) => userStatus.users)
   @JoinColumn({ name: 'id_status' })
   status: UserStatus;
 }
