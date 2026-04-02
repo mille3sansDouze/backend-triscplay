@@ -14,7 +14,7 @@ import { UserStatusModule } from './user-status/user-status.module';
       type: 'sqlite',
       database: 'db.sqlite',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: false,
+      synchronize: true,
     }),
     GameModule,
     UserModule,
