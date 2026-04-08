@@ -11,10 +11,14 @@ import { UserStatusModule } from './user-status/user-status.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'db.sqlite',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
+        type: 'mysql',
+        host: 'localhost',
+        port: 3306,
+        username: 'root',
+        password: 'maisou',
+        database: 'triscplay',
+        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        synchronize: true,
     }),
     GameModule,
     UserModule,
@@ -26,3 +30,4 @@ import { UserStatusModule } from './user-status/user-status.module';
   providers: [AppService],
 })
 export class AppModule {}
+
