@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
-export class CreatePlayDto{
+export class CreateScoreboardDto{
     @IsString()
     @IsNotEmpty({message: "Tu dois entrer un ID d'utilisateur"})
     id_user: String;

@@ -1,4 +1,4 @@
-import { UserTypeOrm } from "src/user/user.entity";
+import { UserTypeOrm } from "src/domains/user/user.entity";
 import { 
     Column,
     Entity, 
