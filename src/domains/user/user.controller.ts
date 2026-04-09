@@ -1,11 +1,14 @@
 import {
   Controller, Get, Post, Patch, Delete,
-  Param, Body, UnauthorizedException, Headers
+  Param, Body, UnauthorizedException, Headers,
+  UseGuards
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { SessionService } from '../../technical/session/session.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
+import { SessionGuard } from 'src/common/guards/session.guard';
+import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 
 @Controller('user')
 export class UserController {
@@ -20,12 +23,8 @@ export class UserController {
   }
 
   @Get('check-session')
-    async checkSession(@Headers('x-session-id') session_id: string) {
-    if (!session_id) throw new UnauthorizedException('Session manquante');
-    
-    const session = await this.sessionService.validateSession(session_id);
-    if (!session) throw new UnauthorizedException('Session invalide ou expirée');
-
+  @UseGuards(SessionGuard)
+  checkSession() {
     return { valid: true };
   }
 
@@ -56,10 +55,12 @@ export class UserController {
     };
   }
 
+  
+
   @Post('logout')
-  async logout(@Headers('x-session-id') session_id: string) {
-    if (!session_id) throw new UnauthorizedException('Session manquante');
-    await this.sessionService.deleteSession(session_id);
+  @UseGuards(SessionGuard)
+  async logout(@CurrentUser() userId: string) {
+    await this.sessionService.deleteSession(userId);
     return { message: 'Déconnecté avec succès' };
   }
 

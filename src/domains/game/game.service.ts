@@ -8,8 +8,8 @@ export interface GameInterface {
   name: string;
   description: string;
   pegi: number;
-  playerCount: number;
-  isMultiplayer: boolean;
+  player_count: number;
+  is_multiplayer: boolean;
 }
 
 

@@ -15,4 +15,5 @@ export class Session {
   @ManyToOne(() => UserTypeOrm)
   @JoinColumn({ name: 'user_id' })
   user: UserTypeOrm;
+    id_user: any;
 }
