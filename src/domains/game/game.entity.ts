@@ -21,10 +21,10 @@ export class Game {
   pegi: number;
 
   @Column()
-  playerCount: number;
+  player_count: number;
 
   @Column()
-  isMultiplayer: boolean;
+  is_multiplayer: boolean;
 
   @OneToMany(() => Scoreboard, (scoreboard) => scoreboard.game) scores: Scoreboard[];
 

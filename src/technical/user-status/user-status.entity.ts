@@ -12,7 +12,7 @@ export class UserStatus{
     id_status: number
     
     @Column()
-    libelle: String;
+    name: String;
 
     @OneToMany(() => UserTypeOrm, (user) => user.status)
     users: UserTypeOrm[];

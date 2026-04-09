@@ -5,7 +5,7 @@ import { UserStatus } from './user-status.entity';
 
 export interface StatusInterface{
     id_status: number;
-    libelle: String;
+    name: String;
 }
 
 @Injectable()
@@ -28,16 +28,16 @@ export class StatusService {
             return userStatus;
         }
 
-    async create(libelle: String): Promise<StatusInterface> {
-            const newStatus = await this.statusRepo.save({ libelle });
+    async create(name: String): Promise<StatusInterface> {
+            const newStatus = await this.statusRepo.save({ name });
     
             return newStatus;
         }
 
-    async updateStatus(id_status: number, libelle: string): Promise <StatusInterface> {
+    async updateStatus(id_status: number, name: string): Promise <StatusInterface> {
             const userStatus = await this.findOne(id_status);
     
-            userStatus.libelle = libelle;
+            userStatus.name = name;
     
             await this.statusRepo.save(userStatus);
     

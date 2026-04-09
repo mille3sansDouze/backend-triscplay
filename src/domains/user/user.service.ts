@@ -7,7 +7,7 @@ import * as bcrypt from 'bcrypt';
 export interface User {
     id_user: string;
     email: string;
-    displayed_name: string;
+    id_name: string;
     user_name: string;
     password: string;
     profile_pic_url: string;

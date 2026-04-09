@@ -17,10 +17,10 @@ export class UserStatusController {
     
     @Post()
     create(@Body() body: CreateUserStatusDto) {
-        return this.statusService.create(body.libelle);
+        return this.statusService.create(body.name);
     }
     
     @Patch(':id')
-    update(@Param('id') id_status: number, @Body() body: { libelle: string }) {
-        return this.statusService.updateStatus(id_status, body.libelle);
+    update(@Param('id') id_status: number, @Body() body: { name: string }) {
+        return this.statusService.updateStatus(id_status, body.name);
     }}

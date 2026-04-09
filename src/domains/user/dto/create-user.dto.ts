@@ -7,7 +7,7 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty({ message: "Un nom d'affichage est obligatoire"})
   @MaxLength(100)
-  displayed_name: string;
+  id_name: string;
 
   @IsString()
   @IsNotEmpty({ message: "Un nom d'utilisateur est obligatoire"})

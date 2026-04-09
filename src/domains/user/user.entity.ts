@@ -18,7 +18,7 @@ export class UserTypeOrm {
   email: string
 
   @Column()
-  displayed_name: string;
+  id_name: string;
 
   @Column()
   user_name: string;
