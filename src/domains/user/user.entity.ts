@@ -1,5 +1,4 @@
 import { Scoreboard } from 'src/domains/scoreboard/scoreboard.entity';
-import { UserStatus } from 'src/technical/user-status/user-status.entity';
 import { 
     Entity, 
     PrimaryGeneratedColumn, 
@@ -33,7 +32,4 @@ export class UserTypeOrm {
   description: string;
 
   @OneToMany(() => Scoreboard, (scoreboard) => scoreboard.user) scores: Scoreboard[];
-  @ManyToOne(() => UserStatus, (userStatus) => userStatus.users, { nullable: false })
-  @JoinColumn({ name: 'id_status' })
-  status: UserStatus;
 }
