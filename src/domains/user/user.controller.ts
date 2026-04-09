@@ -65,12 +65,23 @@ export class UserController {
   }
 
   @Patch(':id')
-  update(@Param('id') id_user: string, @Body() body: { description: string }) {
+  @UseGuards(SessionGuard)
+  update(
+    @Param('id') id_user: string,
+    @CurrentUser() userId: string,
+    @Body() body: { description: string },
+  ) {
+    if (id_user !== userId) throw new UnauthorizedException('Action non autorisée');
     return this.userService.updateDescription(id_user, body.description);
   }
 
   @Delete(':id')
-  remove(@Param('id') id_user: string) {
+  @UseGuards(SessionGuard)
+  remove(
+    @Param('id') id_user: string,
+    @CurrentUser() userId: string,
+  ) {
+    if (id_user !== userId) throw new UnauthorizedException('Action non autorisée');
     return this.userService.remove(id_user);
   }
 }
