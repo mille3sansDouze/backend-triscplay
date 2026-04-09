@@ -12,8 +12,7 @@ export class SessionService {
 
   async createSession(user_id: string): Promise<Session> {
     const expire_at = new Date();
-    expire_at.setDate(expire_at.getDate() + 7); // expire dans 7 jours
-
+    expire_at.setDate(expire_at.getDate() + 7); // date exp a changer si besoin ^^
     const session = this.sessionRepository.create({ user_id, expire_at });
     return this.sessionRepository.save(session);
   }
@@ -23,7 +22,7 @@ export class SessionService {
     if (!session) return null;
     if (session.expire_at < new Date()) {
       await this.sessionRepository.delete({ session_id });
-      return null; // session expirée
+      return null; 
     }
     return session;
   }
