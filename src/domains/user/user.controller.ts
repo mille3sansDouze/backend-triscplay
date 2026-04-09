@@ -14,6 +14,7 @@ export class UserController {
     private readonly sessionService: SessionService,
   ) {}
 
+  //Routes statiques GET
   @Get()
   findAll() {
     return this.userService.findAll();
@@ -29,12 +30,7 @@ export class UserController {
     return { valid: true };
   }
 
-
-  @Get(':id')
-  findOne(@Param('id') id_user: string) {
-    return this.userService.findOne(id_user);
-  }
-
+  //Routes statiques POST
   @Post()
   create(@Body() body: CreateUserDto) {
     return this.userService.create(body.email, body.id_name, body.user_name, body.password, body.profile_pic_url, body.description);
@@ -61,6 +57,12 @@ export class UserController {
     if (!session_id) throw new UnauthorizedException('Session manquante');
     await this.sessionService.deleteSession(session_id);
     return { message: 'Déconnecté avec succès' };
+  }
+
+  //Routes dynamiques (par :id)
+  @Get(':id')
+  findOne(@Param('id') id_user: string) {
+    return this.userService.findOne(id_user);
   }
 
   @Patch(':id')
