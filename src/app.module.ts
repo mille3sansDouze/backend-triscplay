@@ -2,14 +2,11 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { GameModule } from './game/game.module';
-import { UserModule } from './user/user.module';
-import { PlayModule } from './play/play.module';
-import { ConnexionModule } from './connexionStatus/connexionStatus.module';
-import { UserStatusModule } from './user-status/user-status.module';
-import { ConfigModule } from '@nestjs/config';
-import { ConfigService } from '@nestjs/config';
-
+import { GameModule } from './domains/game/game.module';
+import { UserModule } from './domains/user/user.module';
+import { ScoreboardModule } from './domains/scoreboard/scoreboard.module';
+import { UserStatusModule } from './technical/user-status/user-status.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -31,8 +28,7 @@ import { ConfigService } from '@nestjs/config';
     }),
     GameModule,
     UserModule,
-    PlayModule,
-    ConnexionModule,
+    ScoreboardModule,
     UserStatusModule,
   ],
   controllers: [AppController],

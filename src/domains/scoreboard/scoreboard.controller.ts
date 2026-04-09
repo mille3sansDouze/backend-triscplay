@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Patch, Delete, Param, Body } from '@nestjs/common';
-import { PlayService } from './play.service';
-import { CreatePlayDto } from './dto/create-play.dto';
+import { ScoreboardService } from './scoreboard.service';
+import { CreateScoreboardDto } from './dto/create-scoreboard.dto';
 
 @Controller('play')
-export class PlayController {
-    constructor(private readonly playService: PlayService) {}
+export class ScoreboardController {
+    constructor(private readonly playService: ScoreboardService) {}
 
     @Get()
     findAll() {
@@ -17,7 +17,7 @@ export class PlayController {
     }
     
     @Post()
-    create(@Body() body: CreatePlayDto) {
+    create(@Body() body: CreateScoreboardDto) {
         return this.playService.create(body.id_user, body.id_game, body.score);
     }
     

@@ -3,7 +3,7 @@ import {
   Param, Body, UnauthorizedException, Headers
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { SessionService } from '../session/session.service';
+import { SessionService } from '../../technical/session/session.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 

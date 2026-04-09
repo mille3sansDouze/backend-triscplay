@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Play } from './play.entity';
-import { User } from 'src/user/user.service';
-import { GameInterface } from 'src/game/game.service';
+import { Scoreboard } from './scoreboard.entity';
+import { User } from 'src/domains/user/user.service';
+import { GameInterface } from 'src/domains/game/game.service';
 
 export interface PlayInterface{
     id: number;
@@ -14,9 +14,9 @@ export interface PlayInterface{
 }
 
 @Injectable()
-export class PlayService {
+export class ScoreboardService {
 constructor(
-        @InjectRepository(Play)
+        @InjectRepository(Scoreboard)
         private readonly playRepo: Repository<PlayInterface>,
     ) {}
 

@@ -1,7 +1,5 @@
-
-import { ConnexionStatus } from 'src/connexionStatus/connexionStatus.entity';
-import { Play } from 'src/play/play.entity';
-import { UserStatus } from 'src/user-status/user-status.entity';
+import { Scoreboard } from 'src/domains/scoreboard/scoreboard.entity';
+import { UserStatus } from 'src/technical/user-status/user-status.entity';
 import { 
     Entity, 
     PrimaryGeneratedColumn, 
@@ -34,11 +32,8 @@ export class UserTypeOrm {
   @Column({ nullable: true })
   description: string;
 
-  @OneToMany(() => Play, (play) => play.user) plays: Play[];
-  @ManyToOne(() => ConnexionStatus, (connexionStatus) => connexionStatus.users)
-  @JoinColumn({ name: 'id_connexion' })
-  connexion: ConnexionStatus;
-  @ManyToOne(() => UserStatus, (userStatus) => userStatus.users)
+  @OneToMany(() => Scoreboard, (scoreboard) => scoreboard.user) scores: Scoreboard[];
+  @ManyToOne(() => UserStatus, (userStatus) => userStatus.users, { nullable: false })
   @JoinColumn({ name: 'id_status' })
   status: UserStatus;
 }

@@ -1,4 +1,4 @@
-import { Play } from 'src/play/play.entity';
+import { Scoreboard } from 'src/domains/scoreboard/scoreboard.entity';
 import { 
   Entity,
   PrimaryGeneratedColumn, 
@@ -26,6 +26,6 @@ export class Game {
   @Column()
   isMultiplayer: boolean;
 
-  @OneToMany(() => Play, (play) => play.game) plays: Play[];
+  @OneToMany(() => Scoreboard, (scoreboard) => scoreboard.game) scores: Scoreboard[];
 
 }
