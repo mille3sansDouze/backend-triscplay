@@ -1,12 +1,9 @@
 import { Scoreboard } from 'src/domains/scoreboard/scoreboard.entity';
-import { UserStatus } from 'src/technical/user-status/user-status.entity';
 import { 
     Entity, 
     PrimaryGeneratedColumn, 
     Column,
     OneToMany,
-    ManyToOne,
-    JoinColumn,
 } from 'typeorm';
 
 @Entity('User')
@@ -32,8 +29,8 @@ export class UserTypeOrm {
   @Column({ nullable: true })
   description: string;
 
+  @Column({ default: 'user'})
+  role: string;
+
   @OneToMany(() => Scoreboard, (scoreboard) => scoreboard.user) scores: Scoreboard[];
-  @ManyToOne(() => UserStatus, (userStatus) => userStatus.users, { nullable: false })
-  @JoinColumn({ name: 'id_status' })
-  status: UserStatus;
 }

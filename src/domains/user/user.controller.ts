@@ -9,6 +9,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { SessionGuard } from 'src/common/guards/session.guard';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { RolesGuard } from 'src/common/guards/roles.guard';
 
 @Controller('user')
 export class UserController {
@@ -29,6 +31,13 @@ export class UserController {
     return { valid: true };
   }
 
+  @Get('admin/all')       // 1. La route
+  @UseGuards(SessionGuard, RolesGuard)  // 2. Les guards
+  @Roles('admin')         // 3. Les métadonnées
+  findAllAdmin() {
+    return this.userService.findAll();
+  }
+
   //Routes statiques POST
   @Post()
   create(@Body() body: CreateUserDto) {
@@ -42,7 +51,7 @@ export class UserController {
       throw new UnauthorizedException('Email ou mot de passe incorrect');
     }
 
-    const session = await this.sessionService.createSession(user.id_user);
+    const session = await this.sessionService.createSession(user.id_user, user.role);//Ajout de role pour les Guards
 
     return {
       session_id: session.session_id,

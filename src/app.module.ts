@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GameModule } from './domains/game/game.module';
 import { UserModule } from './domains/user/user.module';
 import { ScoreboardModule } from './domains/scoreboard/scoreboard.module';
-import { UserStatusModule } from './technical/user-status/user-status.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
@@ -29,7 +28,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     GameModule,
     UserModule,
     ScoreboardModule,
-    UserStatusModule,
   ],
   controllers: [AppController],
   providers: [AppService],
