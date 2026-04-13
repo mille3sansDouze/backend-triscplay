@@ -1,34 +1,51 @@
-import { Controller, Get, Post, Patch, Delete, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Param, Body, UseGuards, UnauthorizedException } from '@nestjs/common';
 import { ScoreboardService } from './scoreboard.service';
 import { CreateScoreboardDto } from './dto/create-scoreboard.dto';
+import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+import { SessionGuard } from 'src/common/guards/session.guard';
+import { CurrentUserRole } from 'src/common/decorators/current-user-role.decorator';
 
-@Controller('play')
+@Controller('scoreboard')
 export class ScoreboardController {
-    constructor(private readonly playService: ScoreboardService) {}
+    constructor(private readonly scoreboardService: ScoreboardService) {}
 
+    //ROUTES PUBLIQUES
     @Get()
     findAll() {
-        return this.playService.findAll();
+        return this.scoreboardService.findAll();
     }
     
     @Get(':id')
     findOne(@Param('id') id: number){
-        return this.playService.findOne(id);
+        return this.scoreboardService.findOne(id);
     }
     
+    //CONNEXION REQUISE
     @Post()
-    create(@Body() body: CreateScoreboardDto) {
-        return this.playService.create(body.id_user, body.id_game, body.score);
-    }
-    
-    @Patch(':id')
-    update(@Param('id') id: number, @Body() body: { score: number }) {
-        return this.playService.updateScore(id, body.score);
-    }
+    @UseGuards(SessionGuard)
+    create(
+        @Body() body: CreateScoreboardDto,
+        @CurrentUser() userId: string,
+    ) {
+    return this.scoreboardService.create(userId, body.id_game, body.score);
+  }
     
     @Delete(':id')
-    remove(@Param('id') id: number) {
-        return this.playService.remove(id);
+    @UseGuards(SessionGuard)
+    async remove(
+        @Param('id') id: number,
+        @CurrentUser() userId: string,
+        @CurrentUserRole() userRole: string,
+    ) {
+    const isAdmin = userRole === 'admin';
+
+    if (!isAdmin) {
+      // Un utilisateur normal ne peut supprimer que son propre score
+      const score = await this.scoreboardService.findOne(id);
+      if (!score) throw new UnauthorizedException('Score non trouvé');
+      if (score.user.id_user !== userId) throw new UnauthorizedException('Action non autorisée');
     }
 
+    return this.scoreboardService.remove(id);
+  }
 }

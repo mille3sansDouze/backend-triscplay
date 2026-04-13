@@ -5,10 +5,10 @@ import { Scoreboard } from './scoreboard.entity';
 import { User } from 'src/domains/user/user.service';
 import { GameInterface } from 'src/domains/game/game.service';
 
-export interface PlayInterface{
+export interface ScoreboardInterface{
     id: number;
     user: User;
-    game: GameInterface; //créer interface dans Game
+    game: GameInterface;
     score: number;
     created_at: Date;
 }
@@ -17,15 +17,15 @@ export interface PlayInterface{
 export class ScoreboardService {
 constructor(
         @InjectRepository(Scoreboard)
-        private readonly playRepo: Repository<PlayInterface>,
+        private readonly playRepo: Repository<ScoreboardInterface>,
     ) {}
 
-    async findAll(): Promise<PlayInterface[]> {
+    async findAll(): Promise<ScoreboardInterface[]> {
         const plays = await this.playRepo.find();
         return plays;
     }
 
-    async findOne(id: number): Promise<PlayInterface> {
+    async findOne(id: number): Promise<ScoreboardInterface> {
         const play = await this.playRepo.findOneBy({ id })
 
         if (!play) throw new NotFoundException(`Utilisateur ${id} introuvable`);
@@ -33,13 +33,13 @@ constructor(
         return play;
     }
 
-    async create(id_user: String, id_game: number, score: number): Promise<PlayInterface> {
+    async create(id_user: String, id_game: number, score: number): Promise<ScoreboardInterface> {
         const newPlay = await this.playRepo.save({id_user, id_game, score});
 
         return newPlay;
     }
 
-    async updateScore(id: number, score: number): Promise <PlayInterface> {
+    async updateScore(id: number, score: number): Promise <ScoreboardInterface> {
         const play = await this.findOne(id);
 
         play.score = score;
