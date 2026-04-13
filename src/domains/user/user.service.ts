@@ -37,7 +37,11 @@ export class UserService {
 
     async create(email: string, id_name: string, user_name: string, password: string, profile_pic_url: string, description: string): Promise<User> {
         const hashed = await bcrypt.hash(password, 10);
+<<<<<<< HEAD
         const newUser = await this.userRepo.save({ email, id_name, user_name, password: hashed, profile_pic_url, description});
+=======
+        const newUser = await this.userRepo.save({ email, id_name, user_name, password: hashed, profile_pic_url, description, id_status: 1 });
+>>>>>>> 41838a3 (rebase)
 
         return newUser;
     }
