@@ -12,17 +12,17 @@ export class CreateGameDto {
     @IsOptional()
     description: string;
 
-    @ApiProperty({ example: '7', description: 'Le PEGI du jeu'})
+    @ApiProperty({ example: 7, description: 'Le PEGI du jeu'})
     @IsNumber()
     @IsOptional()
     pegi: number;
 
-    @ApiProperty({ example: '4', description: 'Le nombre de joueur qui peuvent y jouer'})
+    @ApiProperty({ example: 4, description: 'Le nombre de joueur qui peuvent y jouer'})
     @IsNumber()
     @IsNotEmpty({message:"Rentrez un nombre de joueurs (min1)"})
     player_count: number;
 
-    @ApiProperty({ example: 'true', description: 'Existe-t-il un mode multijouer au jeu ?'})
+    @ApiProperty({ example: true, description: 'Existe-t-il un mode multijouer au jeu ?'})
     @IsBoolean()
     @IsNotEmpty({message:"Renseignez si le jeu est multijouer ou non"})
     is_multiplayer: boolean;
