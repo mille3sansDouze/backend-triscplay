@@ -4,8 +4,6 @@ import {
     PrimaryGeneratedColumn, 
     Column,
     OneToMany,
-    ManyToOne,
-    JoinColumn,
 } from 'typeorm';
 
 @Entity('User')
@@ -30,6 +28,9 @@ export class UserTypeOrm {
 
   @Column({ nullable: true })
   description: string;
+
+  @Column({ default: 'user'})
+  role: string;
 
   @OneToMany(() => Scoreboard, (scoreboard) => scoreboard.user) scores: Scoreboard[];
 }

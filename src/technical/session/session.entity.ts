@@ -12,7 +12,11 @@ export class Session {
   @Column({ type: 'datetime' })
   expire_at: Date;
 
+  @Column({ default: 'user'})
+  role: string;
+
   @ManyToOne(() => UserTypeOrm)
   @JoinColumn({ name: 'user_id' })
   user: UserTypeOrm;
+    id_user: any;
 }

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserTypeOrm } from './user.entity';
 import * as bcrypt from 'bcrypt';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 export interface User {
     id_user: string;
@@ -36,17 +37,19 @@ export class UserService {
 
     async create(email: string, id_name: string, user_name: string, password: string, profile_pic_url: string, description: string): Promise<User> {
         const hashed = await bcrypt.hash(password, 10);
-        const newUser = await this.userRepo.save({ email, id_name, user_name, password: hashed, profile_pic_url, description });
+        const newUser = await this.userRepo.save({ email, id_name, user_name, password: hashed, profile_pic_url, description});
 
         return newUser;
     }
 
-    async updateDescription(id_user: string, description: string): Promise <User> {
-        const user = await this.findOne(id_user);
+    async update(id_user: string, data: UpdateUserDto): Promise <User> {
+        if (data.password) {
+            data.password = await bcrypt.hash(data.password, 10);
+        }
+        await this.userRepo.update(id_user, data);
 
-        user.description = description;
-
-        await this.userRepo.save(user);
+        const user = await this.userRepo.findOne({ where: { id_user } });
+        if (!user) throw new NotFoundException('Utilisateur non trouvé');
 
         return user;
     }

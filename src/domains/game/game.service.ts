@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Game } from './game.entity';
+import { UpdateGameDto } from './dto/update-game.dto';
 
 export interface GameInterface {
   id_game: number;
@@ -33,8 +34,8 @@ export class GameService {
     return this.gameRepository.save(newGame);
   }
 
-  async update(id_game: number, game: Partial<GameInterface>): Promise<GameInterface | null> {
-    await this.gameRepository.update(id_game, game);
+  async update(id_game: number, data: UpdateGameDto): Promise<GameInterface | null> {
+    await this.gameRepository.update(id_game, data);
     return this.findOne(id_game);
   }
 

@@ -1,11 +1,18 @@
 import {
   Controller, Get, Post, Patch, Delete,
-  Param, Body, UnauthorizedException, Headers
+  Param, Body, UnauthorizedException, Headers,
+  UseGuards
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { SessionService } from '../../technical/session/session.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
+import { SessionGuard } from 'src/common/guards/session.guard';
+import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+import { CurrentUserRole } from 'src/common/decorators/current-user-role.decorator';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('user')
 export class UserController {
@@ -21,13 +28,16 @@ export class UserController {
   }
 
   @Get('check-session')
-    async checkSession(@Headers('x-session-id') session_id: string) {
-    if (!session_id) throw new UnauthorizedException('Session manquante');
-    
-    const session = await this.sessionService.validateSession(session_id);
-    if (!session) throw new UnauthorizedException('Session invalide ou expirée');
-
+  @UseGuards(SessionGuard)
+  checkSession() {
     return { valid: true };
+  }
+
+  @Get('admin/all')
+  @UseGuards(SessionGuard, RolesGuard)
+  @Roles('admin')
+  findAllAdmin() {
+    return this.userService.findAll();
   }
 
   //Routes statiques POST
@@ -43,7 +53,7 @@ export class UserController {
       throw new UnauthorizedException('Email ou mot de passe incorrect');
     }
 
-    const session = await this.sessionService.createSession(user.id_user);
+    const session = await this.sessionService.createSession(user.id_user, user.role);//Ajout de role pour les Guards
 
     return {
       session_id: session.session_id,
@@ -53,25 +63,44 @@ export class UserController {
   }
 
   @Post('logout')
-  async logout(@Headers('x-session-id') session_id: string) {
-    if (!session_id) throw new UnauthorizedException('Session manquante');
-    await this.sessionService.deleteSession(session_id);
+  @UseGuards(SessionGuard)
+  async logout(@CurrentUser() userId: string) {
+    await this.sessionService.deleteSession(userId);
     return { message: 'Déconnecté avec succès' };
   }
 
-  //Routes dynamiques (par :id)
+  //Routes Dynamiques
   @Get(':id')
   findOne(@Param('id') id_user: string) {
     return this.userService.findOne(id_user);
   }
 
   @Patch(':id')
-  update(@Param('id') id_user: string, @Body() body: { description: string }) {
-    return this.userService.updateDescription(id_user, body.description);
-  }
+  @UseGuards(SessionGuard)
+  update(
+    @Param('id') id_user: string,
+    @CurrentUser() userId: string,
+    @CurrentUserRole() userRole: string,
+    @Body() body: UpdateUserDto,
+  ){
+  const isOwner = id_user === userId;
+  const isAdmin = userRole === 'admin';
+
+  if (!isOwner && !isAdmin) throw new UnauthorizedException('Action non autorisée');
+  return this.userService.update(id_user, body);
+}
 
   @Delete(':id')
-  remove(@Param('id') id_user: string) {
-    return this.userService.remove(id_user);
-  }
+  @UseGuards(SessionGuard)
+  remove(
+    @Param('id') id_user: string,
+    @CurrentUser() userId: string,
+    @CurrentUserRole() userRole: string,
+  ){
+  const isOwner = id_user === userId;
+  const isAdmin = userRole === 'admin';
+
+  if (!isOwner && !isAdmin) throw new UnauthorizedException('Action non autorisée');
+  return this.userService.remove(id_user);
+}
 }

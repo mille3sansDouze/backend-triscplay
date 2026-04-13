@@ -10,10 +10,10 @@ export class SessionService {
     private readonly sessionRepository: Repository<Session>,
   ) {}
 
-  async createSession(user_id: string): Promise<Session> {
+  async createSession(user_id: string, role: string): Promise<Session> {
     const expire_at = new Date();
     expire_at.setDate(expire_at.getDate() + 7); // date exp a changer si besoin ^^
-    const session = this.sessionRepository.create({ user_id, expire_at });
+    const session = this.sessionRepository.create({ user_id, role, expire_at }); //Ajout de 'role' ici pour les Guards
     return this.sessionRepository.save(session);
   }
 

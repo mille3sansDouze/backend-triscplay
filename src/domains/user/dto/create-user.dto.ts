@@ -6,12 +6,12 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty({ message: "Un nom d'affichage est obligatoire"})
-  @MaxLength(100)
+  @MaxLength(30)
   id_name: string;
 
   @IsString()
   @IsNotEmpty({ message: "Un nom d'utilisateur est obligatoire"})
-  @MaxLength(100)
+  @MaxLength(30)
   user_name: string;
 
   @IsString()
@@ -29,5 +29,3 @@ export class CreateUserDto {
   @MaxLength(500)
   description: string;
 }
-
-

@@ -15,9 +15,9 @@ export class CreateGameDto {
 
     @IsNumber()
     @IsNotEmpty({message:"Rentrez un nombre de joueurs (min1)"})
-    playerCount: number;
+    player_count: number;
 
     @IsBoolean()
     @IsNotEmpty({message:"Renseignez si le jeu est multijouer ou non"})
-    isMultiplayer: boolean;
+    is_multiplayer: boolean;
 }
