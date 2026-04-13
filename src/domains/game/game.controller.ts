@@ -5,7 +5,9 @@ import { SessionGuard } from 'src/common/guards/session.guard';
 import { RolesGuard } from 'src/common/guards/roles.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { UpdateGameDto } from './dto/update-game.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Games')
 @Controller('game')
 export class GameController {
     constructor(private readonly gameService: GameService) {}
@@ -24,6 +26,7 @@ export class GameController {
 
   //ROUTES ADMIN UNIQUEMENT
   @Post()
+  @ApiBearerAuth('session-id')
   @UseGuards(SessionGuard, RolesGuard)
   @Roles('admin')
   create(@Body() body:CreateGameDto){
@@ -31,6 +34,7 @@ export class GameController {
   }
 
   @Patch(':id')
+  @ApiBearerAuth('session-id')
   @UseGuards(SessionGuard, RolesGuard)
   @Roles('admin')
   update(@Param('id') id: string, @Body() body: UpdateGameDto ){
@@ -39,6 +43,7 @@ export class GameController {
   }
 
   @Delete(':id')
+  @ApiBearerAuth('session-id')
   @UseGuards(SessionGuard, RolesGuard)
   @Roles('admin')
   remove(@Param('id') id: string): Promise<void> {

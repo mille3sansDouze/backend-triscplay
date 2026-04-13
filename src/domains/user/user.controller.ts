@@ -13,7 +13,9 @@ import { Roles } from 'src/common/decorators/roles.decorator';
 import { RolesGuard } from 'src/common/guards/roles.guard';
 import { CurrentUserRole } from 'src/common/decorators/current-user-role.decorator';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Users')
 @Controller('user')
 export class UserController {
   constructor(
@@ -28,12 +30,14 @@ export class UserController {
   }
 
   @Get('check-session')
+  @ApiBearerAuth('session-id')
   @UseGuards(SessionGuard)
   checkSession() {
     return { valid: true };
   }
 
   @Get('admin/all')
+  @ApiBearerAuth('session-id')
   @UseGuards(SessionGuard, RolesGuard)
   @Roles('admin')
   findAllAdmin() {
@@ -63,6 +67,7 @@ export class UserController {
   }
 
   @Post('logout')
+  @ApiBearerAuth('session-id')
   @UseGuards(SessionGuard)
   async logout(@CurrentUser() userId: string) {
     await this.sessionService.deleteSession(userId);
@@ -76,6 +81,7 @@ export class UserController {
   }
 
   @Patch(':id')
+  @ApiBearerAuth('session-id')
   @UseGuards(SessionGuard)
   update(
     @Param('id') id_user: string,
@@ -91,6 +97,7 @@ export class UserController {
 }
 
   @Delete(':id')
+  @ApiBearerAuth('session-id')
   @UseGuards(SessionGuard)
   remove(
     @Param('id') id_user: string,

@@ -4,7 +4,9 @@ import { CreateScoreboardDto } from './dto/create-scoreboard.dto';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { SessionGuard } from 'src/common/guards/session.guard';
 import { CurrentUserRole } from 'src/common/decorators/current-user-role.decorator';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('ScoreBoard')
 @Controller('scoreboard')
 export class ScoreboardController {
     constructor(private readonly scoreboardService: ScoreboardService) {}
@@ -22,6 +24,7 @@ export class ScoreboardController {
     
     //CONNEXION REQUISE
     @Post()
+    @ApiBearerAuth('session-id')
     @UseGuards(SessionGuard)
     create(
         @Body() body: CreateScoreboardDto,
@@ -31,6 +34,7 @@ export class ScoreboardController {
   }
     
     @Delete(':id')
+    @ApiBearerAuth('session-id')
     @UseGuards(SessionGuard)
     async remove(
         @Param('id') id: number,
