@@ -11,6 +11,8 @@ import { SessionGuard } from 'src/common/guards/session.guard';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { RolesGuard } from 'src/common/guards/roles.guard';
+import { CurrentUserRole } from 'src/common/decorators/current-user-role.decorator';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('user')
 export class UserController {
@@ -31,9 +33,9 @@ export class UserController {
     return { valid: true };
   }
 
-  @Get('admin/all')       // 1. La route
-  @UseGuards(SessionGuard, RolesGuard)  // 2. Les guards
-  @Roles('admin')         // 3. Les métadonnées
+  @Get('admin/all')
+  @UseGuards(SessionGuard, RolesGuard)
+  @Roles('admin')
   findAllAdmin() {
     return this.userService.findAll();
   }
@@ -78,19 +80,27 @@ export class UserController {
   update(
     @Param('id') id_user: string,
     @CurrentUser() userId: string,
-    @Body() body: { description: string },
-  ) {
-    if (id_user !== userId) throw new UnauthorizedException('Action non autorisée');
-    return this.userService.updateDescription(id_user, body.description);
-  }
+    @CurrentUserRole() userRole: string,
+    @Body() body: UpdateUserDto,
+  ){
+  const isOwner = id_user === userId;
+  const isAdmin = userRole === 'admin';
+
+  if (!isOwner && !isAdmin) throw new UnauthorizedException('Action non autorisée');
+  return this.userService.update(id_user, body);
+}
 
   @Delete(':id')
   @UseGuards(SessionGuard)
   remove(
     @Param('id') id_user: string,
     @CurrentUser() userId: string,
-  ) {
-    if (id_user !== userId) throw new UnauthorizedException('Action non autorisée');
-    return this.userService.remove(id_user);
-  }
+    @CurrentUserRole() userRole: string,
+  ){
+  const isOwner = id_user === userId;
+  const isAdmin = userRole === 'admin';
+
+  if (!isOwner && !isAdmin) throw new UnauthorizedException('Action non autorisée');
+  return this.userService.remove(id_user);
+}
 }
