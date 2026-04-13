@@ -14,7 +14,7 @@ export class SessionGuard implements CanActivate {
     const session = await this.sessionService.validateSession(session_id);
     if (!session) throw new UnauthorizedException('Session invalide ou expirée');
 
-    request.userId = session.id_user;
+    request.userId = session.user_id;
     request.userRole = session.role;
     return true;
   }
