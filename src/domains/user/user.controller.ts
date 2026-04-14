@@ -14,6 +14,7 @@ import { RolesGuard } from 'src/common/guards/roles.guard';
 import { CurrentUserRole } from 'src/common/decorators/current-user-role.decorator';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { CurrentSession } from 'src/common/decorators/current-session.decorator';
 
 @ApiTags('Users')
 @Controller('user')
@@ -69,8 +70,8 @@ export class UserController {
   @Post('logout')
   @ApiBearerAuth('session-id')
   @UseGuards(SessionGuard)
-  async logout(@CurrentUser() userId: string) {
-    await this.sessionService.deleteSession(userId);
+  async logout(@CurrentSession() session_id: string) {
+    await this.sessionService.deleteSession(session_id);
     return { message: 'Déconnecté avec succès' };
   }
 
