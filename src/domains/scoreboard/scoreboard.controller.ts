@@ -30,7 +30,10 @@ export class ScoreboardController {
         @Body() body: CreateScoreboardDto,
         @CurrentUser() userId: string,
     ) {
-    return this.scoreboardService.create(userId, body.id_game, body.score);
+    return this.scoreboardService.create({
+      ...body,
+      id_user: userId,
+    });
   }
     
     @Delete(':id')

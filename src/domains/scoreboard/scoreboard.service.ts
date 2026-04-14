@@ -2,54 +2,48 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Scoreboard } from './scoreboard.entity';
-import { User } from 'src/domains/user/user.service';
-import { GameInterface } from 'src/domains/game/game.service';
-
-export interface ScoreboardInterface{
-    id: number;
-    user: User;
-    game: GameInterface;
-    score: number;
-    created_at: Date;
-}
+import { CreateScoreboardDto } from './dto/create-scoreboard.dto';
 
 @Injectable()
 export class ScoreboardService {
-constructor(
-        @InjectRepository(Scoreboard)
-        private readonly playRepo: Repository<ScoreboardInterface>,
-    ) {}
+  constructor(
+    @InjectRepository(Scoreboard)
+    private readonly scoreRepo: Repository<Scoreboard>,
+  ) {}
 
-    async findAll(): Promise<ScoreboardInterface[]> {
-        const plays = await this.playRepo.find();
-        return plays;
+  async findAll(): Promise<Scoreboard[]> {
+    return this.scoreRepo.find();
+  }
+
+  async findOne(id: number): Promise<Scoreboard> {
+    const play = await this.scoreRepo.findOneBy({ id });
+
+    if (!play) {
+      throw new NotFoundException(`Score ${id} introuvable`);
     }
 
-    async findOne(id: number): Promise<ScoreboardInterface> {
-        const play = await this.playRepo.findOneBy({ id })
+    return play;
+  }
 
-        if (!play) throw new NotFoundException(`Utilisateur ${id} introuvable`);
+  async create(dto: CreateScoreboardDto): Promise<Scoreboard> {
+    const score = this.scoreRepo.create({
+      user: { id: dto.id_user } as any,
+      game: { id: dto.id_game } as any,
+      score: dto.score,
+    });
 
-        return play;
-    }
+    return this.scoreRepo.save(score);
+  }
 
-    async create(id_user: String, id_game: number, score: number): Promise<ScoreboardInterface> {
-        const newPlay = await this.playRepo.save({id_user, id_game, score});
+  async updateScore(id: number, score: number): Promise<Scoreboard> {
+    const play = await this.findOne(id);
 
-        return newPlay;
-    }
+    play.score = score;
 
-    async updateScore(id: number, score: number): Promise <ScoreboardInterface> {
-        const play = await this.findOne(id);
+    return this.scoreRepo.save(play);
+  }
 
-        play.score = score;
-
-        await this.playRepo.save(play);
-
-        return play;
-    }
-
-    async remove(id: number): Promise<void> {
-        await this.playRepo.delete({ id })
-    }
+  async remove(id: number): Promise<void> {
+    await this.scoreRepo.delete({ id });
+  }
 }
