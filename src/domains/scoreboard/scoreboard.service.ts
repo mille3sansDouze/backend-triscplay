@@ -20,7 +20,10 @@ export class ScoreboardService {
 ) {}
 
   async findAll(): Promise<Scoreboard[]> {
-    return this.scoreRepo.find();
+    return this.scoreRepo.find({
+      relations:['game', 'user'],
+      order: { created_at: 'DESC' }
+    });
   }
 
   async findOne(id: number): Promise<Scoreboard> {
@@ -60,4 +63,20 @@ export class ScoreboardService {
   async remove(id: number): Promise<void> {
     await this.scoreRepo.delete({ id });
   }
+
+
+  async findAllByUser(userId: string): Promise<Scoreboard[]> {
+    const user = await this.userRepo.findOneBy({ id_user: userId });
+
+    if (!user) {
+      throw new NotFoundException(`Utilisateur ${userId} introuvable`);
+    }
+
+    return this.scoreRepo.find({
+      where: { user: { id_user: userId } },
+      relations: ['game'],
+      order: { created_at: 'DESC' }
+    });
+  }
+
 }

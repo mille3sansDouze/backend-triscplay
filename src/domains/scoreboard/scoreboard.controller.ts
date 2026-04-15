@@ -21,6 +21,10 @@ export class ScoreboardController {
     findOne(@Param('id') id: number){
         return this.scoreboardService.findOne(id);
     }
+    @Get('user/:userId')
+    findAllByUser(@Param('userId') userId: string) {
+      return this.scoreboardService.findAllByUser(userId);  
+    }
     
     //CONNEXION REQUISE
     @Post()
