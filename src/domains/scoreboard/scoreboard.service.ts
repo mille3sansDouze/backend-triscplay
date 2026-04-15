@@ -3,13 +3,21 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Scoreboard } from './scoreboard.entity';
 import { CreateScoreboardDto } from './dto/create-scoreboard.dto';
+import { UserTypeOrm } from '../user/user.entity';
+import { Game } from '../game/game.entity';
 
 @Injectable()
 export class ScoreboardService {
   constructor(
-    @InjectRepository(Scoreboard)
-    private readonly scoreRepo: Repository<Scoreboard>,
-  ) {}
+  @InjectRepository(Scoreboard)
+  private readonly scoreRepo: Repository<Scoreboard>,
+
+  @InjectRepository(UserTypeOrm)
+  private readonly userRepo: Repository<UserTypeOrm>,
+
+  @InjectRepository(Game)
+  private readonly gameRepo: Repository<Game>,
+) {}
 
   async findAll(): Promise<Scoreboard[]> {
     return this.scoreRepo.find();
@@ -25,15 +33,21 @@ export class ScoreboardService {
     return play;
   }
 
-  async create(dto: CreateScoreboardDto): Promise<Scoreboard> {
+  async create(dto: CreateScoreboardDto, userId: string): Promise<Scoreboard> {
+    const user = await this.userRepo.findOneBy({ id_user: userId });
+    const game = await this.gameRepo.findOneBy({ id_game: dto.id_game });
+
+    if (!user) throw new NotFoundException("User not found");
+    if (!game) throw new NotFoundException("Game not found");
+
     const score = this.scoreRepo.create({
-      user: { id: dto.id_user } as any,
-      game: { id: dto.id_game } as any,
+      user,
+      game,
       score: dto.score,
     });
 
-    return this.scoreRepo.save(score);
-  }
+  return this.scoreRepo.save(score);
+}
 
   async updateScore(id: number, score: number): Promise<Scoreboard> {
     const play = await this.findOne(id);

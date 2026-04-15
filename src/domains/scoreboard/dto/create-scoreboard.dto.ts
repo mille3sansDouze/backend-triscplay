@@ -11,6 +11,7 @@ export class CreateScoreboardDto{
     id_game: number;
 
     @ApiProperty({example: '1500', description: 'Score (nombre pour le moment) du joueur sur ce jeu'})
+    @Type(() => Number )
     @IsNumber()
     @IsNotEmpty({message: "Tu dois entrer un score"})
     score: number;
