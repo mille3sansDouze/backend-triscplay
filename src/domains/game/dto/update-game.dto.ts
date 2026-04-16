@@ -6,7 +6,7 @@ export class UpdateGameDto {
     @IsString()
     name?: string;
 
-    @ApiProperty({example: 'NexDescription', description:'La nouvelle description'})
+    @ApiProperty({example: 'NewDescription', description:'La nouvelle description'})
     @IsString()
     description?: string;
 
@@ -21,4 +21,8 @@ export class UpdateGameDto {
     @ApiProperty({example: false, description:"Le multiplayer est supporté/n'est plus supporté"})
     @IsBoolean()
     is_multiplayer?: boolean;
+        
+    @ApiProperty({example: 'NewUrl', description:'La nouvelle url image'})
+    @IsString()
+    img_url?: string;
 }

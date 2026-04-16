@@ -79,4 +79,19 @@ export class ScoreboardService {
     });
   }
 
+
+  async findAllByGame(gameId: number): Promise<Scoreboard[]> {
+    const game = await this.gameRepo.findOneBy({ id_game: gameId });
+
+    if (!game) {
+      throw new NotFoundException(`Game ${gameId} introuvable`);
+    }
+
+    return this.scoreRepo.find({
+      where: { game: { id_game: gameId } },
+      relations: ['user'],
+      order: { created_at: 'DESC' }
+    });
+  }
+
 }

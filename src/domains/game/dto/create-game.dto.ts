@@ -26,4 +26,10 @@ export class CreateGameDto {
     @IsBoolean()
     @IsNotEmpty({message:"Renseignez si le jeu est multijouer ou non"})
     is_multiplayer: boolean;
+
+    @ApiProperty({ example: 'img.com/url-complet-de-l-image', description:'url de l image'})
+    @IsString()
+    @MaxLength(600)
+    @IsOptional()
+    img_url: string;
 }

@@ -25,7 +25,10 @@ export class ScoreboardController {
     findAllByUser(@Param('userId') userId: string) {
       return this.scoreboardService.findAllByUser(userId);  
     }
-    
+    @Get('game/:gameId')
+    findAllByGame(@Param('gameId') gameId: number) {
+      return this.scoreboardService.findAllByGame(gameId);  
+    }
     //CONNEXION REQUISE
     @Post()
     @ApiBearerAuth('session-id')

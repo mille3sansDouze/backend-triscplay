@@ -26,6 +26,9 @@ export class Game {
   @Column()
   is_multiplayer: boolean;
 
+  @Column({ nullable: true })
+  img_url: string;
+
   @OneToMany(() => Scoreboard, (scoreboard) => scoreboard.game) scores: Scoreboard[];
 
 }
