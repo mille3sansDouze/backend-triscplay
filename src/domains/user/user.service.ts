@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { UserTypeOrm } from './user.entity';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserRoleDto } from './dto/update-user-role.dto';
 
 export interface User {
     id_user: string;
@@ -67,5 +68,13 @@ export class UserService {
 
         const { password: _, ...result } = user;
         return result;
+    }
+    async updateRole(id_user: string, data: UpdateUserRoleDto): Promise <User> {
+        await this.userRepo.update(id_user, data);
+
+        const user = await this.userRepo.findOne({ where: { id_user } });
+        if (!user) throw new NotFoundException('Utilisateur non trouvé');
+
+        return user;
     }
 }

@@ -15,6 +15,7 @@ import { CurrentUserRole } from 'src/common/decorators/current-user-role.decorat
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CurrentSession } from 'src/common/decorators/current-session.decorator';
+import { UpdateUserRoleDto } from './dto/update-user-role.dto';
 
 @ApiTags('Users')
 @Controller('user')
@@ -96,6 +97,19 @@ export class UserController {
   if (!isOwner && !isAdmin) throw new UnauthorizedException('Action non autorisée');
   return this.userService.update(id_user, body);
 }
+
+  @Patch(':id/role')
+    @ApiBearerAuth('session-id')
+    @UseGuards(SessionGuard, RolesGuard)
+    @Roles('admin')
+    updateRole(
+      @Param('id') id_user: string,
+      @CurrentUserRole() userRole: string,
+      @Body() body: UpdateUserRoleDto,
+    ){
+
+    return this.userService.updateRole(id_user, body);
+  }
 
   @Delete(':id')
   @ApiBearerAuth('session-id')
